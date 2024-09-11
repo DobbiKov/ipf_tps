@@ -1,4 +1,4 @@
 (executable
  (public_name TP1)
- (name main)
+ (name exo4)
  (libraries TP1))
