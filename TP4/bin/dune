@@ -1,0 +1,5 @@
+(executable
+ (public_name TP4)
+ (name main)
+ (flags (:standard -w -32))
+ (libraries TP4))
