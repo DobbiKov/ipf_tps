@@ -53,7 +53,7 @@ let affiche_jeu j =
     let () = affiche_piquet _mid in
     let _arr = choix_piquet j "arr" in
     let () = affiche_piquet _arr in
-    print_endline "%!"
+    Printf.printf "%!"
 
 let () = affiche_jeu piquets
     
@@ -75,8 +75,8 @@ let joue j src dst autre =
     let _src = choix_piquet j src in
     let _dst = choix_piquet j dst in
     let _autre = choix_piquet j autre in
-    let temp_res = deplace_sommet _src _dst in
-    [(fst temp_res); (snd temp_res); _autre]
+    let res1, res2 = deplace_sommet _src _dst in
+    [res1;res2; _autre]
 
 let gen_list n = 
     let rec gen_list_aux n_1 res =
@@ -102,16 +102,21 @@ let rec hanoi_aux dep mil arr n =
 
 let hanoi_list n =
     let rec hanoi_aux piquets dep mil arr n = 
+        Unix.sleepf 0.5;
         if n > 0 then begin
-            hanoi_aux ( hanoi_aux ( joue piquets dep arr mil ) dep arr mil (n-1)  ) mil dep arr (n-1)
-        end else 
-            piquets
+            let new_piquets = hanoi_aux piquets dep arr mil (n-1) in
+            let new_piquets_2 = joue new_piquets dep arr mil in 
+            affiche_jeu piquets;
+            let new_piquets_3 = hanoi_aux new_piquets_2 mil dep arr (n-1) in
+            new_piquets_3
+        end else piquets
+
     in
     let final = hanoi_aux [
         ("dep", gen_list n);
-        ("mil", []);
+        ("mid", []);
         ("arr", [])
-    ] "dep" "mil" "arr" n in
+    ] "dep" "mid" "arr" n in
     affiche_jeu final
 
-let () = hanoi_list 3 
+let () = hanoi_list 4
