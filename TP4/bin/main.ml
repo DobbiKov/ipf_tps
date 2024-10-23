@@ -119,4 +119,55 @@ let hanoi_list n =
     ] "dep" "mid" "arr" n in
     affiche_jeu final
 
-let () = hanoi_list 4
+let hanoi_list_2 n =
+    let rec hanoi_aux piquets dep mil arr n = 
+        Unix.sleepf 0.3;
+        if n > 0 then begin
+            let new_piquets_bis = hanoi_aux piquets dep arr mil (n-1) in
+            let new_piquets = hanoi_aux new_piquets_bis mil dep arr (n-1) in
+            let new_piquets_2 = joue new_piquets dep mil arr in 
+            affiche_jeu new_piquets_2;
+            let new_piquets_3 = hanoi_aux new_piquets_2 arr mil dep (n-1) in
+            let new_piquets_4 = joue new_piquets_3 mil arr dep in 
+            affiche_jeu new_piquets_4;
+            let new_piquets_5 = hanoi_aux new_piquets_4 dep arr mil (n-1) in
+            let new_piquets_6 = hanoi_aux new_piquets_5 mil dep arr (n-1) in
+            new_piquets_6
+        end else piquets
+
+    in
+    let final = hanoi_aux [
+        ("dep", gen_list n);
+        ("mid", []);
+        ("arr", [])
+    ] "dep" "mid" "arr" n in
+    affiche_jeu final
+    
+let () = hanoi_list_2 3
+
+let hanoi_list_3 n =
+    let rec hanoi_aux piquets dep mil arr n = 
+        Unix.sleepf 0.3;
+        if n > 0 then begin
+            let j1 = hanoi_aux piquets dep mil arr (n-1) in
+            let j2 = hanoi_aux j1 mil dep arr (n-1) in
+            (* let new_piquets = hanoi_aux new_piquets_bis mil dep arr (n-1) in *)
+            let new_piquets_2 = joue j2 dep mil arr in 
+            affiche_jeu new_piquets_2;
+            let new_piquets_3 = hanoi_aux new_piquets_2 arr mil dep (n-1) in
+            let new_piquets_4 = joue new_piquets_3 mil arr dep in 
+            affiche_jeu new_piquets_4;
+            let new_piquets_5 = hanoi_aux new_piquets_4 dep arr mil (n-1) in
+            let new_piquets_6 = hanoi_aux new_piquets_5 mil dep arr (n-1) in
+            new_piquets_6
+        end else piquets
+
+    in
+    let final = hanoi_aux [
+        ("dep", gen_list n);
+        ("mid", []);
+        ("arr", [])
+    ] "dep" "mid" "arr" n in
+    affiche_jeu final
+    
+let () = hanoi_list_2 3
